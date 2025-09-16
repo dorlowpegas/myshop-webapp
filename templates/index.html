@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Мой магазин</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>🍓 Мой магазин</h1>
+      <div class="cart-icon" onclick="openCart()">
+        🛒 <span id="cart-count">0</span>
+      </div>
+    </header>
+
+    <!-- Категории -->
+    <div class="categories">
+      <button onclick="filterProducts('all')" class="category-btn active" id="btn-all">Все</button>
+      <button onclick="filterProducts('бенто')" class="category-btn" id="btn-бенто">Бенто-торты</button>
+      <button onclick="filterProducts('клубника')" class="category-btn" id="btn-клубника">Клубника в шоколаде</button>
+      <button onclick="filterProducts('другое')" class="category-btn" id="btn-другое">Другое</button>
+    </div>
+
+    <div id="products"></div>
+    <a href="/admin">Админка (только для администратора)</a>
+  </div>
+
+  <!-- Модальное окно корзины -->
+  <div id="cart-modal" class="modal">
+    <div class="modal-content">
+      <h2>🛒 Ваша корзина</h2>
+      <div id="cart-items"></div>
+      <p><strong>Итого: <span id="cart-total">0</span> ₽</strong></p>
+      <form id="order-form">
+        <input type="text" id="name" placeholder="Ваше имя" required />
+        <input type="tel" id="phone" placeholder="Телефон" required />
+        <textarea id="address" placeholder="Адрес доставки" required></textarea>
+        <button type="submit">Оформить заказ</button>
+      </form>
+      <button onclick="closeCart()">Закрыть</button>
+    </div>
+  </div>
+
+  <script src="/static/js/cart.js"></script>
+  <script>
+    let allProducts = []; // Сохраняем все товары
+    let currentCategory = 'all';
+
+    // Загрузка товаров
+    async function loadProducts() {
+      const res = await fetch('/api/products');
+      allProducts = await res.json();
+      renderProducts(allProducts);
+    }
+
+    // Рендер товаров
+    function renderProducts(products) {
+      const container = document.getElementById('products');
+      container.innerHTML = products.map(p => `
+        <div class="product-card">
+          <div class="product-image-container">
+            <img src="${p.image}" alt="${p.name}" class="product-image">
+          </div>
+          <div class="product-info">
+            <h3>${p.name}</h3>
+            <p class="price">${p.price} ₽</p>
+            <p>${p.description}</p>
+            <button onclick="addToCart(${p.id}, '${p.name}', ${p.price})">Купить</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Фильтрация по категории
+    function filterProducts(category) {
+      currentCategory = category;
+
+      // Сбросить активные кнопки
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Активировать текущую
+      document.getElementById(`btn-${category}`).classList.add('active');
+
+      if (category === 'all') {
+        renderProducts(allProducts);
+      } else {
+        const filtered = allProducts.filter(p => p.category === category);
+        renderProducts(filtered);
+      }
+    }
+
+    loadProducts();
+    updateCart();
+  </script>
+</body>
+</html>

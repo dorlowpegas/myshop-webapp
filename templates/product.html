@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Товар</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <a href="/">← Назад</a>
+    <div id="product-detail"></div>
+  </div>
+
+  <script>
+    async function loadProduct() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+      const res = await fetch(`/api/products/${id}`);
+      const product = await res.json();
+
+      document.getElementById('product-detail').innerHTML = `
+        <img src="${product.image}" alt="${product.name}" class="product-image">
+        <h1>${product.name}</h1>
+        <p class="price">${product.price} ₽</p>
+        <p>${product.description}</p>
+        <p><strong>Состав:</strong> ${product.composition}</p>
+        <p><strong>Упаковка:</strong> ${product.packaging}</p>
+        <p><strong>Срок годности:</strong> ${product.shelfLife}</p>
+        <p><strong>Доставка:</strong> ${product.delivery}</p>
+        <button onclick="alert('Добавлено в корзину!')">Добавить в корзину</button>
+      `;
+    }
+
+    loadProduct();
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Набор клубники 9 шт",
+    "price": 990,
+    "category": "клубника",
+    "image": "/static/images/placeholder.jpg",
+    "description": "Свежая клубника в шоколаде",
+    "composition": "Клубника, белый и тёмный шоколад",
+    "packaging": "Подарочная коробка",
+    "shelfLife": "48 часов",
+    "delivery": "По городу в течение 3 часов"
+  },
+  {
+    "id": 2,
+    "name": "Бенто-торт «С Днём Рождения»",
+    "price": 1190,
+    "category": "бенто",
+    "image": "/static/images/bento.jpg",
+    "description": "Мини-торт 10 см, украшенный по вашему пожеланию",
+    "composition": "Крем, бисквит, фрукты",
+    "packaging": "Пластиковая упаковка",
+    "shelfLife": "24 часа",
+    "delivery": "По городу"
+  },
+  {
+    "id": 3,
+    "name": "Набор ягод с творожным кремом",
+    "price": 1390,
+    "category": "другое",
+    "image": "/static/images/dessert.jpg",
+    "description": "Изысканный десерт для ценителей вкуса",
+    "composition": "Клубника, черника, творожный крем",
+    "packaging": "Подарочная коробка",
+    "shelfLife": "36 часов",
+    "delivery": "По городу"
+  }
+]
