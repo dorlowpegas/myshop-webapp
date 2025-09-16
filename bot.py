@@ -4,7 +4,7 @@ import json
 import os
 
 # 🔑 Токен твоего бота (уже вставлен)
-BOT_TOKEN = "8126131226:AAGutlyYNbwP4janM7S0xzzUD_twf12G8S4"
+BOT_TOKEN = "8126131226:AAH52Ad8CwWfuPIdH0YnRNPhGVwsUucpAFY"
 
 # 🌐 URL твоего магазина (пока заглушка — замени после загрузки на Render)
 WEB_APP_URL = "https://myshop-webapp.onrender.com"  # ← ЗАМЕНИ ПОСЛЕ ЗАЛИВКИ НА Render.com
@@ -65,4 +65,5 @@ async def web_app_data_handler(message: types.Message):
 
 if __name__ == '__main__':
     print("🚀 Бот запущен...")
+
     executor.start_polling(dp, skip_updates=True)
