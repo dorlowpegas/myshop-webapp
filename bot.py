@@ -6,25 +6,28 @@ import os
 # 🔑 Токен твоего бота (уже вставлен)
 BOT_TOKEN = "8126131226:AAH52Ad8CwWfuPIdH0YnRNPhGVwsUucpAFY"
 
-# 🌐 URL твоего магазина (пока заглушка — замени после загрузки на Render)
-WEB_APP_URL = "https://myshop-webapp.onrender.com"  # ← ЗАМЕНИ ПОСЛЕ ЗАЛИВКИ НА Render.com
+# 🌐 URL твоего магазина на Render
+WEB_APP_URL = "https://dorlowpegas.onrender.com"
 
+# 📩 ID администратора 494863358
+
+# Инициализация бота
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
 
-# 📩 ID администратора (опционально — замени на свой, чтобы получать заказы)
-# Как узнать свой ID: напиши @userinfobot в Telegram
-ADMIN_ID = None  # Пример: 123456789
-
-# Команда /start
+# Команда /start — отправляем кнопку Web App
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
     web_app = types.WebAppInfo(url=WEB_APP_URL)
     keyboard = types.InlineKeyboardMarkup()
     keyboard.add(types.InlineKeyboardButton(text="Открыть магазин 🛒", web_app=web_app))
-    await message.answer("🍓 Добро пожаловать в наш магазин десертов!\n\nНажмите кнопку ниже, чтобы выбрать товары и оформить заказ.", reply_markup=keyboard)
+    await message.answer(
+        "🍓 Добро пожаловать в наш магазин десертов!\n\n"
+        "Выбирайте товары, добавляйте в корзину и оформляйте заказ — всё прямо здесь, в Telegram!",
+        reply_markup=keyboard
+    )
 
-# Получение данных из Web App (после оформления заказа)
+# Обработка данных из Web App (после оформления заказа)
 @dp.message_handler(content_types=types.ContentType.WEB_APP_DATA)
 async def web_app_data_handler(message: types.Message):
     data = message.web_app_data.data  # JSON-строка с данными формы
@@ -63,7 +66,7 @@ async def web_app_data_handler(message: types.Message):
         except Exception as e:
             print("Не удалось отправить сообщение админу:", e)
 
+# Запуск бота
 if __name__ == '__main__':
-    print("🚀 Бот запущен...")
-
+    print("🚀 Бот запущен и готов принимать заказы!")
     executor.start_polling(dp, skip_updates=True)
